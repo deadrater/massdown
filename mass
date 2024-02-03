@@ -382,10 +382,20 @@ echo.
 echo.              [0] %_exitmsg%
 echo.       ______________________________________________________________
 echo.
-cls&setlocal&set "ActWindows=1"&set "ActOffice=0"&call :Activation_Start&endlocal&cls&goto _KMS_Menu
+call :_color2 %_White% "           " %_Green% "Enter a menu option in the Keyboard [1,2,3,4,5,6,7,0]"
+set _el=%1%
 
-::
-========================================================================================================================================
+if %_el%==8 exit /b
+if %_el%==7 (if %vNextOverride% EQU 0 (set vNextOverride=1) else (set vNextOverride=0))&goto _KMS_Menu
+if %_el%==6 (if %_Debug%==0 (set _Debug=1) else (set _Debug=0)) &goto _KMS_Menu
+if %_el%==5 call:_Complete_Uninstall&cls&goto _KMS_Menu
+if %_el%==4 set ActTask=&call:RenTask&goto _KMS_Menu
+if %_el%==3 cls&setlocal&set "ActWindows=1"&set "ActOffice=1"&call :Activation_Start&endlocal&cls&goto _KMS_Menu
+if %_el%==2 cls&setlocal&set "ActWindows=0"&set "ActOffice=1"&call :Activation_Start&endlocal&cls&goto _KMS_Menu
+if %_el%==1 cls&setlocal&set "ActWindows=1"&set "ActOffice=0"&call :Activation_Start&endlocal&cls&goto _KMS_Menu
+goto _KMS_Menu
+
+::========================================================================================================================================
 
 :Done
 
@@ -393,6 +403,7 @@ if defined _unattended exit /b
 
 echo.
 echo Press any key to exit...
+pause >nul
 exit /b
 
 :=========================================================================================================================================
@@ -515,7 +526,7 @@ if %_Debug% EQU 0 (
   set "_Nul2=2>nul"
   set "_Nul6=2^>nul"
   set "_Nul3=1>nul 2>nul"
-  set "_Pause= "
+  set "_Pause=pause >nul"
   if %Silent% EQU 0 (call :Begin) else (call :Begin >!_run! 2>&1)
 ) else (
   set "_Nul1="
@@ -539,7 +550,7 @@ if %_Debug% EQU 0 (
 if defined _gui if %_Debug%==1 (
 echo.
 call :_color %_Yellow% "Press any key to go back..."
- 
+pause >nul
 exit /b
 )
 @exit /b
@@ -580,7 +591,7 @@ call :_color %_Red% "Internet is not connected, continuing the process anyway."
 echo Internet is not connected.
 echo:
 call :_color %_Yellow% "Press any key to go back..."
- 
+pause >nul
 exit /b
 )
 
@@ -3126,6 +3137,7 @@ if defined _unattended exit /b
 echo ____________________________________________________________________
 echo.
 call :_color %_Yellow% "Press any key to go back..."
+pause >nul
 exit /b
 
 ::========================================================================================================================================
@@ -3337,6 +3349,7 @@ if defined _unattended timeout /t 2 & exit /b
 
 echo.
 call :_color %_Yellow% "Press any key to go back..."
+pause >nul
 exit /b
 
 :clearstuff
@@ -3499,6 +3512,7 @@ if defined _unattended exit /b
 
 echo.
 call :_color %_Yellow% "Press any key to go back..."
+pause >nul
 exit /b
 
 ::========================================================================================================================================
@@ -3684,6 +3698,7 @@ echo.
 echo This file is supposed to be run only by the scheduled task.
 echo.
 echo Press any key to exit
+pause >nul
 exit /b
 )
 
